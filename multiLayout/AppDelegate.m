@@ -82,12 +82,25 @@ void tap_keyboard(void) {
 
 - (void) itemClicked: (NSMenuItem *)sender
 {
-    
-    NSLog(@"Layout %@ selected for Keyboard: %@",TISGetInputSourceProperty((TISInputSourceRef) [keyboardLayouts objectAtIndex:[sender tag]],kTISPropertyInputSourceID),[[sender menu] title]);
+    TISInputSourceRef layout = (TISInputSourceRef) [keyboardLayouts objectAtIndex:[sender tag]];
+
+    //Manual Selection vs. Keyboard list
     
     if([[[sender menu] title] intValue] == 0) {
+        
         automaticSwitching = false;
         [self selectLayout:(TISInputSourceRef) [keyboardLayouts objectAtIndex:[sender tag]]];
+        NSLog(@"Layout %@ manually slected",TISGetInputSourceProperty(layout,kTISPropertyInputSourceID));
+
+    } else {
+        
+        NSString * key = [NSString stringWithFormat:@"%@-layout",[[sender menu] title]];
+        [preferences setInteger:[sender tag] forKey:key];
+
+        [self selectLayout:(TISInputSourceRef) [keyboardLayouts objectAtIndex:[sender tag]]];
+
+        NSLog(@"Layout %@ selected for Keyboard: %@",TISGetInputSourceProperty(layout,kTISPropertyInputSourceID),[[sender menu] title]);
+        
     }
     
     [self updateMenu];
@@ -196,6 +209,14 @@ void tap_keyboard(void) {
             
         } else if(current_keyboard != nil) {
             
+            NSString * key = [NSString stringWithFormat:@"%d-layout",[current_keyboard locationId]];
+            NSInteger index = [preferences integerForKey:key];
+
+            if ([submenuitem tag] == index) 
+                [submenuitem setState:NSOnState];
+            else
+                [submenuitem setState:NSOffState];
+
         }
     }
     
@@ -483,7 +504,6 @@ void tap_keyboard(void) {
 
 @end
 
-
 #pragma mark - DDHIDLib Caller KEYBOARD SWITCHING IS DONE HERE
 
 @implementation AppDelegate (DDHidKeyboardDelegate)
@@ -506,19 +526,12 @@ keyDown: (unsigned) usageId;
         dontForwardTap = false;
         lastUsedKeyboard = keyboard;
         
-        switch ([keyboard locationId]) {
-            case 0xFFFFFFFFFA120000:
-                [self selectLayout: (TISInputSourceRef) [keyboardLayouts objectAtIndex:1]];
-                break;
-                
-            case 0x40132000:
-                [self selectLayout: (TISInputSourceRef) [keyboardLayouts objectAtIndex:2]];
-                break;
-                
-            default:
-                break;
-        }
         
+        NSString * key = [NSString stringWithFormat:@"%d-layout",[keyboard locationId]];
+        NSInteger index = [preferences integerForKey:key];
+        
+        [self selectLayout:(TISInputSourceRef) [keyboardLayouts objectAtIndex:index]];
+
         [self updateMenu];
 
     } else if (automaticSwitching == false) {
