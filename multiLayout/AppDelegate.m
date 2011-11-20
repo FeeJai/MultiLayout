@@ -96,7 +96,8 @@ void tap_keyboard(void) {
 
 - (void) disabledClicked: (NSMenuItem *)sender
 {
-    //Safe that keyboard is disabled
+    dontForwardTap = false; //Is automatically set once button is pressed
+    
     NSString * key = [NSString stringWithFormat:@"%@-disabled",[[sender menu] title]];
     
     if([preferences boolForKey:key])
@@ -250,7 +251,19 @@ void tap_keyboard(void) {
     if(image) {
         [image setSize:NSMakeSize (16, 16)];
 
-        if (automaticSwitching == true) {
+        if (dontForwardTap == true) {
+            NSFont *thickFont = [NSFont fontWithName:@"Verdana-Bold" size:11];
+            
+            NSDictionary *attrs = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:thickFont,
+                                                                       [NSColor greenColor],
+                                                                       nil]
+                                                              forKeys:[NSArray arrayWithObjects:NSFontAttributeName,
+                                                                       NSForegroundColorAttributeName,
+                                                                       nil]];
+            [image lockFocus];
+            [[NSString stringWithString:@"X"] drawAtPoint: NSMakePoint(8, 0) withAttributes: attrs];
+            [image unlockFocus];
+        } else if (automaticSwitching == true) {
             NSFont *thickFont = [NSFont fontWithName:@"Verdana-Bold" size:11];
 
             NSDictionary *attrs = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:thickFont,
@@ -483,7 +496,11 @@ keyDown: (unsigned) usageId;
     
     //If Keyboard disabled, tell CGEventTap not to forward the Keystroke and do not switch the Layout
     if([preferences boolForKey:[NSString stringWithFormat:@"%ld-disabled",[keyboard locationId]]]) {
+
         dontForwardTap = true;
+        lastUsedKeyboard = nil;
+        [self updateMenu];
+        
     } else if (automaticSwitching == true && keyboard != lastUsedKeyboard) {
         
         dontForwardTap = false;
@@ -501,6 +518,7 @@ keyDown: (unsigned) usageId;
             default:
                 break;
         }
+        
         [self updateMenu];
 
     } else if (automaticSwitching == false) {
@@ -508,6 +526,8 @@ keyDown: (unsigned) usageId;
         dontForwardTap = false;
         lastUsedKeyboard = nil;
         
+    } else {
+        dontForwardTap = false;
     }
         
     /* DDHidUsageTables * usageTables = [DDHidUsageTables standardUsageTables];
