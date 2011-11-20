@@ -20,7 +20,10 @@
     bool automaticSwitching;
     TISInputSourceRef currentLayout;
     
-    IBOutlet NSMenu *statusMenu;
+    IBOutlet NSMenu * statusMenu;
+    IBOutlet NSPanel * panel;
+    IBOutlet NSMenuItem * startOnLoginItem;
+
     NSStatusItem * statusItem;
     
     NSArray * keyboardLayouts;
@@ -38,8 +41,16 @@ CGEventRef myCGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef
 void tap_keyboard(void);
 
 - (IBAction) setAutomaticSwitching:(id)sender;
-- (IBAction) quitApplication:(id)sender;
 
+- (IBAction) openCharacterViewer:(id)sender ;
+- (IBAction) openKeyboardViewer:(id)sender ;
+- (IBAction) openKeyboardPrefs:(id)sender;
+- (IBAction) openLocalizationPrefs:(id)sender;
+- (IBAction) aboutClicked:(id)sender;
+- (IBAction) startOnLoginClicked:(id)sender;
+
+
+- (IBAction) quitApplication:(id)sender;
 
 
 - (void) loadNewKeyboards: (NSArray *) new_keyboards;
