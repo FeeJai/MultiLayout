@@ -7,28 +7,76 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		016A4624147729AB00424722 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016A4623147729AB00424722 /* Carbon.framework */; };
+		01CF84501479350E00F391CC /* gplv3-127x51.png in Resources */ = {isa = PBXBuildFile; fileRef = 01CF844F1479350E00F391CC /* gplv3-127x51.png */; };
 		01F621A3147701A200035951 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F621A2147701A200035951 /* Cocoa.framework */; };
 		01F621AD147701A200035951 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01F621AB147701A200035951 /* InfoPlist.strings */; };
 		01F621AF147701A200035951 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621AE147701A200035951 /* main.m */; };
 		01F621B3147701A200035951 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 01F621B1147701A200035951 /* Credits.rtf */; };
 		01F621B6147701A200035951 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621B5147701A200035951 /* AppDelegate.m */; };
 		01F621B9147701A200035951 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01F621B7147701A200035951 /* MainMenu.xib */; };
+		01F621DF14770C5300035951 /* DDHidAppleRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621C614770C5300035951 /* DDHidAppleRemote.m */; };
+		01F621E014770C5300035951 /* DDHidDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621C814770C5300035951 /* DDHidDevice.m */; };
+		01F621E114770C5300035951 /* DDHidElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621CA14770C5300035951 /* DDHidElement.m */; };
+		01F621E214770C5300035951 /* DDHidEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621CC14770C5300035951 /* DDHidEvent.m */; };
+		01F621E314770C5300035951 /* DDHidJoystick.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621CE14770C5300035951 /* DDHidJoystick.m */; };
+		01F621E414770C5300035951 /* DDHidKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621D014770C5300035951 /* DDHidKeyboard.m */; };
+		01F621E514770C5300035951 /* DDHidKeyboardBarcodeScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621D214770C5300035951 /* DDHidKeyboardBarcodeScanner.m */; };
+		01F621E614770C5300035951 /* DDHidMouse.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621D514770C5300035951 /* DDHidMouse.m */; };
+		01F621E714770C5300035951 /* DDHidQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621D714770C5300035951 /* DDHidQueue.m */; };
+		01F621E814770C5300035951 /* DDHidStandardUsages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01F621D814770C5300035951 /* DDHidStandardUsages.plist */; };
+		01F621E914770C5300035951 /* DDHidUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621DA14770C5300035951 /* DDHidUsage.m */; };
+		01F621EA14770C5300035951 /* DDHidUsageTables.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621DC14770C5300035951 /* DDHidUsageTables.m */; };
+		01F621EB14770C5300035951 /* NSDictionary+DDHidExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621DE14770C5300035951 /* NSDictionary+DDHidExtras.m */; };
+		01F621ED14770EE100035951 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F621EC14770EE100035951 /* IOKit.framework */; };
+		01F621F114770FD400035951 /* NSXReturnThrowError.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F621F014770FD400035951 /* NSXReturnThrowError.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		016A4623147729AB00424722 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		01CF844F1479350E00F391CC /* gplv3-127x51.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gplv3-127x51.png"; sourceTree = "<group>"; };
 		01F6219E147701A200035951 /* multiLayout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = multiLayout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01F621A2147701A200035951 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		01F621A5147701A200035951 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		01F621A6147701A200035951 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		01F621A7147701A200035951 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		01F621AA147701A200035951 /* multiLayout-Info.plist */ = {isa = PBXFileReference; path = "multiLayout-Info.plist"; sourceTree = "<group>"; };
+		01F621AA147701A200035951 /* multiLayout-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "multiLayout-Info.plist"; sourceTree = "<group>"; };
 		01F621AC147701A200035951 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01F621AE147701A200035951 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		01F621B0147701A200035951 /* multiLayout-Prefix.pch */ = {isa = PBXFileReference; path = "multiLayout-Prefix.pch"; sourceTree = "<group>"; };
+		01F621B0147701A200035951 /* multiLayout-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "multiLayout-Prefix.pch"; sourceTree = "<group>"; };
 		01F621B2147701A200035951 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		01F621B4147701A200035951 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		01F621B4147701A200035951 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		01F621B5147701A200035951 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		01F621B8147701A200035951 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		01F621C514770C5300035951 /* DDHidAppleRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidAppleRemote.h; sourceTree = "<group>"; };
+		01F621C614770C5300035951 /* DDHidAppleRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidAppleRemote.m; sourceTree = "<group>"; };
+		01F621C714770C5300035951 /* DDHidDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidDevice.h; sourceTree = "<group>"; };
+		01F621C814770C5300035951 /* DDHidDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidDevice.m; sourceTree = "<group>"; };
+		01F621C914770C5300035951 /* DDHidElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidElement.h; sourceTree = "<group>"; };
+		01F621CA14770C5300035951 /* DDHidElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidElement.m; sourceTree = "<group>"; };
+		01F621CB14770C5300035951 /* DDHidEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidEvent.h; sourceTree = "<group>"; };
+		01F621CC14770C5300035951 /* DDHidEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidEvent.m; sourceTree = "<group>"; };
+		01F621CD14770C5300035951 /* DDHidJoystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidJoystick.h; sourceTree = "<group>"; };
+		01F621CE14770C5300035951 /* DDHidJoystick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidJoystick.m; sourceTree = "<group>"; };
+		01F621CF14770C5300035951 /* DDHidKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidKeyboard.h; sourceTree = "<group>"; };
+		01F621D014770C5300035951 /* DDHidKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidKeyboard.m; sourceTree = "<group>"; };
+		01F621D114770C5300035951 /* DDHidKeyboardBarcodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidKeyboardBarcodeScanner.h; sourceTree = "<group>"; };
+		01F621D214770C5300035951 /* DDHidKeyboardBarcodeScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidKeyboardBarcodeScanner.m; sourceTree = "<group>"; };
+		01F621D314770C5300035951 /* DDHidLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidLib.h; sourceTree = "<group>"; };
+		01F621D414770C5300035951 /* DDHidMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidMouse.h; sourceTree = "<group>"; };
+		01F621D514770C5300035951 /* DDHidMouse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidMouse.m; sourceTree = "<group>"; };
+		01F621D614770C5300035951 /* DDHidQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidQueue.h; sourceTree = "<group>"; };
+		01F621D714770C5300035951 /* DDHidQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidQueue.m; sourceTree = "<group>"; };
+		01F621D814770C5300035951 /* DDHidStandardUsages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DDHidStandardUsages.plist; sourceTree = "<group>"; };
+		01F621D914770C5300035951 /* DDHidUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidUsage.h; sourceTree = "<group>"; };
+		01F621DA14770C5300035951 /* DDHidUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidUsage.m; sourceTree = "<group>"; };
+		01F621DB14770C5300035951 /* DDHidUsageTables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHidUsageTables.h; sourceTree = "<group>"; };
+		01F621DC14770C5300035951 /* DDHidUsageTables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHidUsageTables.m; sourceTree = "<group>"; };
+		01F621DD14770C5300035951 /* NSDictionary+DDHidExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DDHidExtras.h"; sourceTree = "<group>"; };
+		01F621DE14770C5300035951 /* NSDictionary+DDHidExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DDHidExtras.m"; sourceTree = "<group>"; };
+		01F621EC14770EE100035951 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		01F621EF14770FD400035951 /* NSXReturnThrowError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSXReturnThrowError.h; sourceTree = "<group>"; };
+		01F621F014770FD400035951 /* NSXReturnThrowError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSXReturnThrowError.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +85,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				01F621A3147701A200035951 /* Cocoa.framework in Frameworks */,
+				01F621ED14770EE100035951 /* IOKit.framework in Frameworks */,
+				016A4624147729AB00424722 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				01F621A2147701A200035951 /* Cocoa.framework */,
+				016A4623147729AB00424722 /* Carbon.framework */,
+				01F621EC14770EE100035951 /* IOKit.framework */,
 				01F621A4147701A200035951 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -85,6 +137,7 @@
 				01F621B4147701A200035951 /* AppDelegate.h */,
 				01F621B5147701A200035951 /* AppDelegate.m */,
 				01F621B7147701A200035951 /* MainMenu.xib */,
+				01F621C414770C5300035951 /* DDHidLib */,
 				01F621A9147701A200035951 /* Supporting Files */,
 			);
 			path = multiLayout;
@@ -93,6 +146,7 @@
 		01F621A9147701A200035951 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				01CF844F1479350E00F391CC /* gplv3-127x51.png */,
 				01F621AA147701A200035951 /* multiLayout-Info.plist */,
 				01F621AB147701A200035951 /* InfoPlist.strings */,
 				01F621AE147701A200035951 /* main.m */,
@@ -100,6 +154,49 @@
 				01F621B1147701A200035951 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		01F621C414770C5300035951 /* DDHidLib */ = {
+			isa = PBXGroup;
+			children = (
+				01F621EE14770FD400035951 /* NSXReturnThrowError */,
+				01F621C514770C5300035951 /* DDHidAppleRemote.h */,
+				01F621C614770C5300035951 /* DDHidAppleRemote.m */,
+				01F621C714770C5300035951 /* DDHidDevice.h */,
+				01F621C814770C5300035951 /* DDHidDevice.m */,
+				01F621C914770C5300035951 /* DDHidElement.h */,
+				01F621CA14770C5300035951 /* DDHidElement.m */,
+				01F621CB14770C5300035951 /* DDHidEvent.h */,
+				01F621CC14770C5300035951 /* DDHidEvent.m */,
+				01F621CD14770C5300035951 /* DDHidJoystick.h */,
+				01F621CE14770C5300035951 /* DDHidJoystick.m */,
+				01F621CF14770C5300035951 /* DDHidKeyboard.h */,
+				01F621D014770C5300035951 /* DDHidKeyboard.m */,
+				01F621D114770C5300035951 /* DDHidKeyboardBarcodeScanner.h */,
+				01F621D214770C5300035951 /* DDHidKeyboardBarcodeScanner.m */,
+				01F621D314770C5300035951 /* DDHidLib.h */,
+				01F621D414770C5300035951 /* DDHidMouse.h */,
+				01F621D514770C5300035951 /* DDHidMouse.m */,
+				01F621D614770C5300035951 /* DDHidQueue.h */,
+				01F621D714770C5300035951 /* DDHidQueue.m */,
+				01F621D814770C5300035951 /* DDHidStandardUsages.plist */,
+				01F621D914770C5300035951 /* DDHidUsage.h */,
+				01F621DA14770C5300035951 /* DDHidUsage.m */,
+				01F621DB14770C5300035951 /* DDHidUsageTables.h */,
+				01F621DC14770C5300035951 /* DDHidUsageTables.m */,
+				01F621DD14770C5300035951 /* NSDictionary+DDHidExtras.h */,
+				01F621DE14770C5300035951 /* NSDictionary+DDHidExtras.m */,
+			);
+			path = DDHidLib;
+			sourceTree = "<group>";
+		};
+		01F621EE14770FD400035951 /* NSXReturnThrowError */ = {
+			isa = PBXGroup;
+			children = (
+				01F621EF14770FD400035951 /* NSXReturnThrowError.h */,
+				01F621F014770FD400035951 /* NSXReturnThrowError.m */,
+			);
+			path = NSXReturnThrowError;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,6 +252,8 @@
 				01F621AD147701A200035951 /* InfoPlist.strings in Resources */,
 				01F621B3147701A200035951 /* Credits.rtf in Resources */,
 				01F621B9147701A200035951 /* MainMenu.xib in Resources */,
+				01F621E814770C5300035951 /* DDHidStandardUsages.plist in Resources */,
+				01CF84501479350E00F391CC /* gplv3-127x51.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +266,19 @@
 			files = (
 				01F621AF147701A200035951 /* main.m in Sources */,
 				01F621B6147701A200035951 /* AppDelegate.m in Sources */,
+				01F621DF14770C5300035951 /* DDHidAppleRemote.m in Sources */,
+				01F621E014770C5300035951 /* DDHidDevice.m in Sources */,
+				01F621E114770C5300035951 /* DDHidElement.m in Sources */,
+				01F621E214770C5300035951 /* DDHidEvent.m in Sources */,
+				01F621E314770C5300035951 /* DDHidJoystick.m in Sources */,
+				01F621E414770C5300035951 /* DDHidKeyboard.m in Sources */,
+				01F621E514770C5300035951 /* DDHidKeyboardBarcodeScanner.m in Sources */,
+				01F621E614770C5300035951 /* DDHidMouse.m in Sources */,
+				01F621E714770C5300035951 /* DDHidQueue.m in Sources */,
+				01F621E914770C5300035951 /* DDHidUsage.m in Sources */,
+				01F621EA14770C5300035951 /* DDHidUsageTables.m in Sources */,
+				01F621EB14770C5300035951 /* NSDictionary+DDHidExtras.m in Sources */,
+				01F621F114770FD400035951 /* NSXReturnThrowError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +398,7 @@
 				01F621BE147701A200035951 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
