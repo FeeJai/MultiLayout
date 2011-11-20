@@ -17,6 +17,8 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
+    NSUserDefaults *preferences;
+    
     bool automaticSwitching;
     TISInputSourceRef currentLayout;
     

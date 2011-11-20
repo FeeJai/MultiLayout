@@ -11,170 +11,28 @@
 #import "DDHidLib.h"
 #include <IOKit/hid/IOHIDUsageTables.h>
 
+//TODO: Combine Name and LocationID in Preferences
 
 @implementation AppDelegate
-
-
-#pragma mark - Application and Cocoa Stuff
-
--(void) addAppAsLoginItem{
-	NSString * appPath = [[NSBundle mainBundle] bundlePath];
-    
-	// This will retrieve the path for the application
-	// For example, /Applications/test.app
-	CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
-    
-	// Create a reference to the shared file list.
-    // We are adding it to the current user only.
-    // If we want to add it all users, use
-    // kLSSharedFileListGlobalLoginItems instead of
-    //kLSSharedFileListSessionLoginItems
-	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
-                                                            kLSSharedFileListSessionLoginItems, NULL);
-	if (loginItems) {
-		//Insert an item to the list.
-		LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(loginItems,
-                                                                     kLSSharedFileListItemLast, NULL, NULL,
-                                                                     url, NULL, NULL);
-		if (item){
-			CFRelease(item);
-        }
-	}	
-    
-	CFRelease(loginItems);
-}
-
--(void) deleteAppFromLoginItem {
-	NSString * appPath = [[NSBundle mainBundle] bundlePath];
-    
-	// This will retrieve the path for the application
-	// For example, /Applications/test.app
-	CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
-    
-	// Create a reference to the shared file list.
-	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
-                                                            kLSSharedFileListSessionLoginItems, NULL);
-    
-	if (loginItems) {
-		UInt32 seedValue;
-		//Retrieve the list of Login Items and cast them to
-		// a NSArray so that it will be easier to iterate.
-		NSArray  *loginItemsArray = (NSArray *)LSSharedFileListCopySnapshot(loginItems, &seedValue);
-        
-		for(int i = 0; i< [loginItemsArray count]; i++){
-			LSSharedFileListItemRef itemRef = (LSSharedFileListItemRef)[loginItemsArray
-                                                                        objectAtIndex:i];
-			//Resolve the item with URL
-			if (LSSharedFileListItemResolve(itemRef, 0, (CFURLRef*) &url, NULL) == noErr) {
-				NSString * urlPath = [(NSURL*)url path];
-				if ([urlPath compare:appPath] == NSOrderedSame){
-					LSSharedFileListItemRemove(loginItems,itemRef);
-				}
-			}
-		}
-		[loginItemsArray release];
-	}
-}
-
--(bool) isAppLoginItem {
-	NSString * appPath = [[NSBundle mainBundle] bundlePath];
-    
-	// This will retrieve the path for the application
-	// For example, /Applications/test.app
-	CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
-    
-	// Create a reference to the shared file list.
-	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
-                                                            kLSSharedFileListSessionLoginItems, NULL);
-    bool value = false;
-
-	if (loginItems) {
-		UInt32 seedValue;
-		//Retrieve the list of Login Items and cast them to
-		// a NSArray so that it will be easier to iterate.
-		NSArray  *loginItemsArray = (NSArray *)LSSharedFileListCopySnapshot(loginItems, &seedValue);
-        
-		for(int i = 0; i< [loginItemsArray count]; i++){
-			LSSharedFileListItemRef itemRef = (LSSharedFileListItemRef)[loginItemsArray
-                                                                        objectAtIndex:i];
-			//Resolve the item with URL
-			if (LSSharedFileListItemResolve(itemRef, 0, (CFURLRef*) &url, NULL) == noErr) {
-				NSString * urlPath = [(NSURL*)url path];
-				if ([urlPath compare:appPath] == NSOrderedSame){
-					value = true;				}
-			}
-		}
-		[loginItemsArray release];
-	}
-    return value;
-}
-
-
-- (void)dealloc
-{
-    [keyboards release];
-    
-    keyboards = nil;
-    
-    [super dealloc];
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    // Insert code here to initialize your application
-}
-
--(void)awakeFromNib 
-{
-    //Setup variables
-    automaticSwitching = true;
-    
-    //Install Status Item in Menu Bae
-    statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
-    [statusItem setMenu:statusMenu];
-    [statusItem setTitle:@"MultiLayout"];
-    [statusItem setHighlightMode:YES];
-    
-    
-    //Load Layouts:
-    CFDictionaryRef properties = (CFDictionaryRef) [NSDictionary dictionaryWithObject:@"TISTypeKeyboardLayout" forKey:(id)kTISPropertyInputSourceType];
-    
-    keyboardLayouts = (NSArray *) TISCreateInputSourceList(properties,false);
-    NSLog(@"Keyboard Layputs available:");
-    for (id cur_Layout in keyboardLayouts) {
-        NSLog(@"  %@ (%@)",TISGetInputSourceProperty((TISInputSourceRef) cur_Layout,kTISPropertyLocalizedName),TISGetInputSourceProperty((TISInputSourceRef) cur_Layout,kTISPropertyInputSourceID));
-        if (TISGetInputSourceProperty((TISInputSourceRef) cur_Layout,kTISPropertyInputSourceIsSelected)) {
-            currentLayout = (TISInputSourceRef) cur_Layout;
-        }
-    }
-    
-    //Setup DDHidLib
-    [self loadKeyboards];
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval: 7.5 
-                                             target: self 
-                                           selector:@selector(loadKeyboards) 
-                                           userInfo: nil 
-                                            repeats: YES];
-    //Install EventTap
-    tap_keyboard();
-}
-
-
-
 
 #pragma mark - Event Tap
 
 //The Tap is necessary for the first character to be displayed in the correct keyboard layout and to disable keyboard inputs
 
+bool dontForwardTap = false;
+
 CGEventRef myCGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
+    
     /* if (CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode) == 0x0B) {
      CGEventSetIntegerValueField(event, kCGKeyboardEventKeycode, 0x09);
      } */
     
     //NSLog(@"Event Tap: %d", (int) CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode));
 
-    return event;
+    if (dontForwardTap)
+        return nil;
+    else
+        return event;
 }
 
 
@@ -238,7 +96,14 @@ void tap_keyboard(void) {
 
 - (void) disabledClicked: (NSMenuItem *)sender
 {
-    NSLog(@"Disabled clicked for Keyboard %@!\n",[[sender menu] title]);
+    //Safe that keyboard is disabled
+    NSString * key = [NSString stringWithFormat:@"%@-disabled",[[sender menu] title]];
+    
+    if([preferences boolForKey:key])
+        [preferences setBool:false forKey:key];
+    else
+        [preferences setBool:true forKey:key];
+
     [self updateMenu];
 
 }
@@ -294,14 +159,43 @@ void tap_keyboard(void) {
 - (NSMenu *) getSubmenuForKeyboard:(DDHidKeyboard *) current_keyboard {
     
     NSMenu * submenu = [[NSMenu alloc] initWithTitle:[NSString stringWithFormat:@"%ld",[current_keyboard locationId]]];
+    
+    //Nil for Manual Settings
     if (current_keyboard != nil) {
-        [submenu addItemWithTitle:@"Disabled" action:@selector(disabledClicked:)  keyEquivalent:@""];
+        NSMenuItem * disableditem = [submenu addItemWithTitle:@"Disabled" action:@selector(disabledClicked:)  keyEquivalent:@""];
         [submenu addItem:[NSMenuItem separatorItem]];
+        
+        if([preferences boolForKey:[NSString stringWithFormat:@"%ld-disabled",[current_keyboard locationId]]])
+            [disableditem setState:NSOnState];
+        else
+            [disableditem setState:NSOffState];
     }
+    
     int j = 0;
     for (id cur_Layout in keyboardLayouts) {
-        [[submenu addItemWithTitle:TISGetInputSourceProperty((TISInputSourceRef) cur_Layout,kTISPropertyLocalizedName) action:@selector(itemClicked:) keyEquivalent:@""] setTag:j++];
-        //TODO: Enable current
+
+        NSMenuItem * submenuitem = [submenu addItemWithTitle:TISGetInputSourceProperty((TISInputSourceRef) cur_Layout,kTISPropertyLocalizedName) action:@selector(itemClicked:) keyEquivalent:@""];
+        [submenuitem setTag:j++];
+        
+        //Get the correct flag in front of the Keyboard Layout
+        NSImage* image = [[NSImage alloc] initWithIconRef:TISGetInputSourceProperty((TISInputSourceRef)cur_Layout, kTISPropertyIconRef)];
+        
+        if(image) {
+            [image setSize:NSMakeSize (16, 16)];
+            [submenuitem setImage:image];
+        }
+        
+        //Checkmark the current Keyboard
+        if(automaticSwitching == false && current_keyboard == nil) { //Manual Switching
+            
+            if(currentLayout == (TISInputSourceRef) cur_Layout)
+                [submenuitem setState:NSOnState];
+            else
+                [submenuitem setState:NSOffState];
+            
+        } else if(current_keyboard != nil) {
+            
+        }
     }
     
     return submenu;
@@ -423,6 +317,157 @@ void tap_keyboard(void) {
     [self updateMenu];
 }
 
+
+#pragma mark - Application and Cocoa Stuff
+
+
+-(void) addAppAsLoginItem{
+	NSString * appPath = [[NSBundle mainBundle] bundlePath];
+    
+	// This will retrieve the path for the application
+	// For example, /Applications/test.app
+	CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
+    
+	// Create a reference to the shared file list.
+    // We are adding it to the current user only.
+    // If we want to add it all users, use
+    // kLSSharedFileListGlobalLoginItems instead of
+    //kLSSharedFileListSessionLoginItems
+	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
+                                                            kLSSharedFileListSessionLoginItems, NULL);
+	if (loginItems) {
+		//Insert an item to the list.
+		LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(loginItems,
+                                                                     kLSSharedFileListItemLast, NULL, NULL,
+                                                                     url, NULL, NULL);
+		if (item){
+			CFRelease(item);
+        }
+	}	
+    
+	CFRelease(loginItems);
+}
+
+-(void) deleteAppFromLoginItem {
+	NSString * appPath = [[NSBundle mainBundle] bundlePath];
+    
+	// This will retrieve the path for the application
+	// For example, /Applications/test.app
+	CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
+    
+	// Create a reference to the shared file list.
+	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
+                                                            kLSSharedFileListSessionLoginItems, NULL);
+    
+	if (loginItems) {
+		UInt32 seedValue;
+		//Retrieve the list of Login Items and cast them to
+		// a NSArray so that it will be easier to iterate.
+		NSArray  *loginItemsArray = (NSArray *)LSSharedFileListCopySnapshot(loginItems, &seedValue);
+        
+		for(int i = 0; i< [loginItemsArray count]; i++){
+			LSSharedFileListItemRef itemRef = (LSSharedFileListItemRef)[loginItemsArray
+                                                                        objectAtIndex:i];
+			//Resolve the item with URL
+			if (LSSharedFileListItemResolve(itemRef, 0, (CFURLRef*) &url, NULL) == noErr) {
+				NSString * urlPath = [(NSURL*)url path];
+				if ([urlPath compare:appPath] == NSOrderedSame){
+					LSSharedFileListItemRemove(loginItems,itemRef);
+				}
+			}
+		}
+		[loginItemsArray release];
+	}
+}
+
+-(bool) isAppLoginItem {
+	NSString * appPath = [[NSBundle mainBundle] bundlePath];
+    
+	// This will retrieve the path for the application
+	// For example, /Applications/test.app
+	CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:appPath]; 
+    
+	// Create a reference to the shared file list.
+	LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL,
+                                                            kLSSharedFileListSessionLoginItems, NULL);
+    bool value = false;
+    
+	if (loginItems) {
+		UInt32 seedValue;
+		//Retrieve the list of Login Items and cast them to
+		// a NSArray so that it will be easier to iterate.
+		NSArray  *loginItemsArray = (NSArray *)LSSharedFileListCopySnapshot(loginItems, &seedValue);
+        
+		for(int i = 0; i< [loginItemsArray count]; i++){
+			LSSharedFileListItemRef itemRef = (LSSharedFileListItemRef)[loginItemsArray
+                                                                        objectAtIndex:i];
+			//Resolve the item with URL
+			if (LSSharedFileListItemResolve(itemRef, 0, (CFURLRef*) &url, NULL) == noErr) {
+				NSString * urlPath = [(NSURL*)url path];
+				if ([urlPath compare:appPath] == NSOrderedSame){
+					value = true;				}
+			}
+		}
+		[loginItemsArray release];
+	}
+    return value;
+}
+
+
+- (void)dealloc
+{
+    [preferences synchronize];
+    [preferences release];
+    [keyboards release];
+    
+    keyboards = nil;
+    
+    [super dealloc];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+    // Insert code here to initialize your application
+}
+
+-(void)awakeFromNib 
+{
+    
+    //Setup variables
+    automaticSwitching = true;
+    preferences = [[NSUserDefaults standardUserDefaults] retain];
+    
+    //Install Status Item in Menu Bae
+    statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
+    [statusItem setMenu:statusMenu];
+    [statusItem setTitle:@"MultiLayout"];
+    [statusItem setHighlightMode:YES];
+    
+    
+    //Load Layouts:
+    CFDictionaryRef properties = (CFDictionaryRef) [NSDictionary dictionaryWithObject:@"TISTypeKeyboardLayout" forKey:(id)kTISPropertyInputSourceType];
+        
+    keyboardLayouts = (NSArray *) TISCreateInputSourceList(properties,false);
+    NSLog(@"Keyboard Layputs available:");
+    for (id cur_Layout in keyboardLayouts) {
+        NSLog(@"  %@ (%@)",TISGetInputSourceProperty((TISInputSourceRef) cur_Layout,kTISPropertyLocalizedName),TISGetInputSourceProperty((TISInputSourceRef) cur_Layout,kTISPropertyInputSourceID));
+        if (TISGetInputSourceProperty((TISInputSourceRef) cur_Layout,kTISPropertyInputSourceIsSelected)) {
+            currentLayout = (TISInputSourceRef) cur_Layout;
+        }
+    }
+    
+    //Setup DDHidLib
+    [self loadKeyboards];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval: 7.5 
+                                             target: self 
+                                           selector:@selector(loadKeyboards) 
+                                           userInfo: nil 
+                                            repeats: YES];
+    //Install EventTap
+    tap_keyboard();
+}
+
 @end
 
 
@@ -435,26 +480,36 @@ keyDown: (unsigned) usageId;
 {
     static DDHidKeyboard * lastUsedKeyboard;
     
-    if (automaticSwitching == true && keyboard != lastUsedKeyboard) {
+    
+    //If Keyboard disabled, tell CGEventTap not to forward the Keystroke and do not switch the Layout
+    if([preferences boolForKey:[NSString stringWithFormat:@"%ld-disabled",[keyboard locationId]]]) {
+        dontForwardTap = true;
+    } else if (automaticSwitching == true && keyboard != lastUsedKeyboard) {
+        
+        dontForwardTap = false;
         lastUsedKeyboard = keyboard;
+        
         switch ([keyboard locationId]) {
             case 0xFFFFFFFFFA120000:
                 [self selectLayout: (TISInputSourceRef) [keyboardLayouts objectAtIndex:1]];
                 break;
-            
+                
             case 0x40132000:
                 [self selectLayout: (TISInputSourceRef) [keyboardLayouts objectAtIndex:2]];
                 break;
-            
+                
             default:
                 break;
         }
         [self updateMenu];
-    } else if (automaticSwitching == false ){
+
+    } else if (automaticSwitching == false) {
+        
+        dontForwardTap = false;
         lastUsedKeyboard = nil;
+        
     }
-    
-    
+        
     /* DDHidUsageTables * usageTables = [DDHidUsageTables standardUsageTables];
     NSString * description = [NSString stringWithFormat: @"%@ (0x%04X)",
                               [usageTables descriptionForUsagePage: kHIDPage_KeyboardOrKeypad
